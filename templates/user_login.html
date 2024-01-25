@@ -2,13 +2,20 @@
 
 {% block title %}
     <title>user_login</title>
+    <style>
+        h1
+        {
+            margin-top: 50px;
+            color: brown;
+        }
+    </style>
 {% endblock %}
 
 <body>
 
 {% block body_block %}
     <center>
-        <h1 style="color: brown;">Registration</h1> <br>
+        <h1>Registration</h1> <br>
         <form  method="POST" enctype="multipart/form-data">
             {% csrf_token %}
                 
