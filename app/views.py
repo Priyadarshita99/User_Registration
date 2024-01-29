@@ -20,7 +20,7 @@ def registration(request):
         if UFD.is_valid() and PFD.is_valid():
             MUFDO=UFD.save(commit=False)
             pw=UFD.cleaned_data['password']
-            MUFDO.set_password(pw)
+            MUFDO.set_password(pw)                      #encryption
             MUFDO.save()
 
             MPFDO=PFD.save(commit=False)
@@ -41,7 +41,6 @@ def registration(request):
             return HttpResponse('Registration is successful')
         else:
             return HttpResponse('Invalid Data')
-
     return render(request,'registration.html',d)
 
 def user_login(request):
@@ -76,3 +75,49 @@ def display_profile(request):
     PO=Profile.objects.get(username=UO)
     d={'UO':UO,'PO':PO}
     return render(request,'display_profile.html',d)
+
+# @login_required
+# def change_password(request):
+#     if request.method=='POST':
+#         username=request.session.get('username')
+#         UO=User.objects.get(username=username)
+#         print(UO)
+#         password=request.POST['password']
+#         print(password,UO.password)
+#         if UO.password==password:
+#             pw=request.POST['pw']
+#             print(pw)
+#             # username=request.session.get('username')
+#             # UO=User.objects.get(username=username)
+#             # UO.set_password(pw)
+#             # UO.save()
+#             return HttpResponse('Password Changed Sucessfully')
+#         else:
+#             return HttpResponse('Write Correct Password')
+#     return render(request,'change_password.html')
+
+@login_required
+def change_password(request):
+    if request.method=='POST':
+        username=request.session.get('username')
+        UO=User.objects.get(username=username)
+        npw=request.POST['pw']
+        UO.set_password(npw)
+        UO.save()
+        return HttpResponse('Password Changed Sucessfully')
+    return render(request,'change_password.html')
+
+def forgot_password(request):
+    if request.method=='POST':
+        username=request.POST['un']
+        password=request.POST['pw']
+
+        LUO=User.objects.filter(username=username)
+        if LUO:
+            UO=LUO[0]
+            UO.set_password(password)
+            UO.save()
+            return HttpResponse('Reset password is done ')
+        else:
+            return HttpResponse('Username is not Valid')
+    return render(request,'forgot_password.html')

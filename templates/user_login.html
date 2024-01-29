@@ -25,7 +25,9 @@
                 <label for="pw">Password:</label>
                 <input type="password" name="pw" id="pw"> <br> <br>
                 
-            <input type="submit" class="bg-primary" style="border-radius: 9px">
+            <input type="submit" class="bg-primary" style="border-radius: 9px">  <br> <br>
+
+            <a href="{% url 'forgot_password' %}" class="btn btn-primary">Forgot Password?</a>
         </form>
     </center>
 {% endblock %}
